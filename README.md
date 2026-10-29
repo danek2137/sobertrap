@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/sobertrap.svg?v=3" width="200" alt="SoberTrap Logo">
+  <img src="assets/sobertrap.svg?v=4" width="200" alt="SoberTrap Logo">
 </p>
 
 # SoberTrap
