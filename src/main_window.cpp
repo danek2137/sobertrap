@@ -301,23 +301,7 @@ void MainWindow::buildInterface()
     sidebarLayout->setContentsMargins(9, 12, 9, 10);
     sidebarLayout->setSpacing(3);
 
-    auto* sidebarHeader = new QHBoxLayout();
-    sidebarHeader->setContentsMargins(0, 0, 0, 8);
-    sidebarHeader->setSpacing(4);
-    auto* appNameLabel = new QLabel(QStringLiteral("SoberTrap"));
-    appNameLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    sidebarHeader->addWidget(appNameLabel, 1);
-    auto* logoLabel = new QLabel();
-    logoLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    QPixmap pixmap(QStringLiteral("assets/logo.png"));
-    if (pixmap.isNull()) {
-        pixmap.load(QCoreApplication::applicationDirPath() + QStringLiteral("/assets/logo.png"));
-    }
-    if (!pixmap.isNull()) {
-        logoLabel->setPixmap(pixmap.scaled(48, 48, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    }
-    sidebarHeader->addWidget(logoLabel);
-    sidebarLayout->addLayout(sidebarHeader);
+    // Sidebar header: just search, no logo
 
     m_navigationSearch = new QLineEdit();
     m_navigationSearch->setPlaceholderText(QStringLiteral("Search settings"));
@@ -337,14 +321,32 @@ void MainWindow::buildInterface()
     navScroll->setWidget(navigationContent);
     sidebarLayout->addWidget(navScroll, 1);
 
+    // Bottom line: sobertrap [logo] ---- version 1.1.0
+    auto* bottomLine = new QHBoxLayout();
+    bottomLine->setContentsMargins(0, 4, 0, 0);
+    bottomLine->setSpacing(6);
+    auto* appNameLabel = new QLabel(QStringLiteral("SoberTrap"));
+    appNameLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    bottomLine->addWidget(appNameLabel);
+    auto* logoLabel = new QLabel();
+    logoLabel->setAlignment(Qt::AlignCenter);
+    QPixmap pixmap(QStringLiteral("assets/logo.png"));
+    if (pixmap.isNull()) {
+        pixmap.load(QCoreApplication::applicationDirPath() + QStringLiteral("/assets/logo.png"));
+    }
+    if (!pixmap.isNull()) {
+        logoLabel->setPixmap(pixmap.scaled(24, 24, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
+    bottomLine->addWidget(logoLabel);
     auto* separator = new QFrame();
     separator->setFrameShape(QFrame::HLine);
     separator->setFrameShadow(QFrame::Sunken);
-    sidebarLayout->addWidget(separator);
-
+    separator->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    bottomLine->addWidget(separator, 1);
     auto* versionLabel = new QLabel(QStringLiteral("v1.1.0"));
-    versionLabel->setAlignment(Qt::AlignRight | Qt::AlignBottom);
-    sidebarLayout->addWidget(versionLabel);
+    versionLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    bottomLine->addWidget(versionLabel);
+    sidebarLayout->addLayout(bottomLine);
 
     bodyLayout->addWidget(m_sidebar);
 
