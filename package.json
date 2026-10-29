@@ -1,7 +1,7 @@
 {
   "name": "sobertrapp",
   "version": "1.1.0",
-  "description": "Native Qt settings manager for Sober on Linux",
+  "description": "Native C++/Qt settings manager for Sober on Linux",
   "scripts": {
     "start": "./run.sh",
     "dev": "CMAKE_BUILD_TYPE=Debug ./run.sh"

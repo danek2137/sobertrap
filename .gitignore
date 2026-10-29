@@ -1,17 +1,6 @@
 /build/
 /build-*/
 
-# Build artifacts
-/build/
-/build-*/
-/Roblox Launcher Design/node_modules/
-/Roblox Launcher Design/dist/
-/Roblox Launcher Design/dist-electron/
-
 # OS files
 .DS_Store
 *.log
-/Roblox Launcher Design/my old luncher/node_modules/
-/Roblox Launcher Design/my old luncher/dist/
-/Roblox Launcher Design/my old luncher/dist-electron/
-*.AppImage

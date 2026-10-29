@@ -1,3 +1,5 @@
+![SoberTrapp Logo](assets/sobertrapp.svg)
+
 # SoberTrapp
 
 SoberTrapp is a native C++/Qt settings manager for Sober on Linux. Its dark settings layout is inspired by Fishstrap's searchable navigation and compact option cards; Fishstrap's Windows/WPF implementation and assets are not bundled.
@@ -17,8 +19,6 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --parallel 2
 ctest --test-dir build --output-on-failure
 ```
-
-The root `npm start` command remains as a convenience wrapper around `run.sh`; Node and Electron are not used by the native app.
 
 ## Managed files
 
