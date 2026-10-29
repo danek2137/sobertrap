@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(SoberTrapp VERSION 1.1.0 LANGUAGES CXX)
+project(SoberTrap VERSION 1.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -7,7 +7,7 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Widgets Svg)
 
-add_executable(sobertrapp
+add_executable(sobertrap
     src/main.cpp
     src/main_window.cpp
     src/main_window.h
@@ -17,9 +17,9 @@ add_executable(sobertrapp
     src/crosshair_overlay.h
 )
 
-target_link_libraries(sobertrapp PRIVATE Qt6::Widgets Qt6::Svg)
-target_compile_definitions(sobertrapp PRIVATE SOBERTRAPP_VERSION="${PROJECT_VERSION}")
-target_compile_options(sobertrapp PRIVATE -Wall -Wextra -Wpedantic)
+target_link_libraries(sobertrap PRIVATE Qt6::Widgets Qt6::Svg)
+target_compile_definitions(sobertrap PRIVATE SOBERTRAP_VERSION="${PROJECT_VERSION}")
+target_compile_options(sobertrap PRIVATE -Wall -Wextra -Wpedantic)
 
 include(CTest)
 if(BUILD_TESTING)
@@ -33,4 +33,4 @@ if(BUILD_TESTING)
     add_test(NAME config_store_test COMMAND config_store_test)
 endif()
 
-install(TARGETS sobertrapp RUNTIME DESTINATION bin)
+install(TARGETS sobertrap RUNTIME DESTINATION bin)

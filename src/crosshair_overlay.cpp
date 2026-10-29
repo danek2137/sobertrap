@@ -12,7 +12,7 @@ CrosshairOverlay::CrosshairOverlay(QWidget* parent)
     setAttribute(Qt::WA_TranslucentBackground);
     setAttribute(Qt::WA_ShowWithoutActivating);
     setAttribute(Qt::WA_TransparentForMouseEvents);
-    setWindowTitle(QStringLiteral("SoberTrapp Crosshair Overlay"));
+    setWindowTitle(QStringLiteral("SoberTrap Crosshair Overlay"));
     if (QScreen* screen = QGuiApplication::primaryScreen()) setGeometry(screen->geometry());
 }
 

@@ -245,7 +245,7 @@ QJsonObject makeBalancedPreset()
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), m_store()
 {
-    setWindowTitle(QStringLiteral("SoberTrapp Settings"));
+    setWindowTitle(QStringLiteral("SoberTrap Settings"));
     setWindowIcon(svgIcon(QStringLiteral("home")));
     setMinimumSize(840, 480);
     resize(900, 540);
@@ -257,7 +257,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     buildInterface();
     m_overlay = new CrosshairOverlay(this);
-    appendLog(QStringLiteral("INFO"), QStringLiteral("SoberTrapp initialized"));
+    appendLog(QStringLiteral("INFO"), QStringLiteral("SoberTrap initialized"));
     if (m_configLoaded) {
         appendLog(QStringLiteral("SUCCESS"), QStringLiteral("Loaded %1 FastFlags from Sober config")
                   .arg(fflags().size()));
@@ -324,9 +324,9 @@ void MainWindow::buildInterface()
     sidebarLogoLayout->setSpacing(2);
     auto* logoLabel = new QLabel();
     logoLabel->setAlignment(Qt::AlignCenter);
-    QFile logoFile(QStringLiteral("assets/sobertrapp.svg"));
+    QFile logoFile(QStringLiteral("assets/sobertrap.svg"));
     if (!logoFile.open(QIODevice::ReadOnly)) {
-        logoFile.setFileName(QCoreApplication::applicationDirPath() + QStringLiteral("/assets/sobertrapp.svg"));
+        logoFile.setFileName(QCoreApplication::applicationDirPath() + QStringLiteral("/assets/sobertrap.svg"));
         (void)logoFile.open(QIODevice::ReadOnly);
     }
     if (logoFile.isOpen()) {
@@ -337,9 +337,9 @@ void MainWindow::buildInterface()
         renderer.render(&painter, QRectF(0, 0, 64, 64));
         logoLabel->setPixmap(pixmap);
     } else {
-        logoLabel->setText(QStringLiteral("SoberTrapp"));
+        logoLabel->setText(QStringLiteral("SoberTrap"));
     }
-    auto* infoLabel = new QLabel(QStringLiteral("SoberTrapp 1.1.0"));
+    auto* infoLabel = new QLabel(QStringLiteral("SoberTrap 1.1.0"));
     infoLabel->setAlignment(Qt::AlignCenter);
     sidebarLogoLayout->addWidget(logoLabel);
     sidebarLogoLayout->addWidget(infoLabel);
@@ -780,7 +780,7 @@ QWidget* MainWindow::buildHomePage()
     content->addLayout(logHeading);
     m_activityLog = new QPlainTextEdit();
     m_activityLog->setReadOnly(true);
-    m_activityLog->setPlaceholderText(QStringLiteral("Activity from SoberTrapp and the Sober launcher will appear here."));
+    m_activityLog->setPlaceholderText(QStringLiteral("Activity from SoberTrap and the Sober launcher will appear here."));
     m_activityLog->setMinimumHeight(150);
     m_activityLog->setMaximumHeight(220);
     m_activityLog->setMaximumBlockCount(500);
@@ -1491,7 +1491,7 @@ QWidget* MainWindow::buildAppearancePage()
 
     content->addWidget(createSectionHeading(QStringLiteral("Custom sky texture")));
     auto* skyboxNote = makeLabel(QStringLiteral(
-        "Roblox skyboxes use six square faces. Choose Front, Back, Up, Down, Left, and Right images; SoberTrapp converts them to Android ETC1 textures."), QStringLiteral("muted"));
+        "Roblox skyboxes use six square faces. Choose Front, Back, Up, Down, Left, and Right images; SoberTrap converts them to Android ETC1 textures."), QStringLiteral("muted"));
     skyboxNote->setWordWrap(true);
     content->addWidget(skyboxNote);
 
@@ -1879,7 +1879,7 @@ void MainWindow::restoreBackup(const QString& filename)
         QString backupError;
         if (!m_store.createBackup(&safetyBackup, &backupError)) {
             QMessageBox::critical(this, QStringLiteral("Safety backup failed"),
-                QStringLiteral("SoberTrapp could not make a safety copy of the current config, so the restore was cancelled.\n\n%1")
+                QStringLiteral("SoberTrap could not make a safety copy of the current config, so the restore was cancelled.\n\n%1")
                     .arg(backupError));
             setStatus(QStringLiteral("Restore cancelled: safety backup failed"), true);
             return;
@@ -1910,7 +1910,7 @@ QWidget* MainWindow::buildIntegrationsPage()
     content->addWidget(createSectionHeading(QStringLiteral("Activity and presence")));
     const QList<QPair<QString, QStringList>> integrations = {
         {QStringLiteral("Discord Rich Presence"), {QStringLiteral("Sober manages Discord presence directly when enabled in its own settings."), QStringLiteral("Available")}},
-        {QStringLiteral("Roblox Cloud"), {QStringLiteral("Cloud synchronization is not available in SoberTrapp yet."), QStringLiteral("Coming soon")}}
+        {QStringLiteral("Roblox Cloud"), {QStringLiteral("Cloud synchronization is not available in SoberTrap yet."), QStringLiteral("Coming soon")}}
     };
     for (const auto& item : integrations) {
         auto* status = new QLabel(item.second.at(1));
@@ -1927,7 +1927,7 @@ QWidget* MainWindow::buildIntegrationsPage()
 QWidget* MainWindow::buildAboutPage()
 {
     QVBoxLayout* content = nullptr;
-    QWidget* page = createPage(QStringLiteral("About SoberTrapp"),
+    QWidget* page = createPage(QStringLiteral("About SoberTrap"),
         QStringLiteral("A settings manager for Sober on Linux."), &content);
     auto* card = new QFrame();
     card->setObjectName(QStringLiteral("settingCard"));
@@ -1938,8 +1938,8 @@ QWidget* MainWindow::buildAboutPage()
     logo->setFixedSize(42, 42);
     row->addWidget(logo);
     auto* copy = new QVBoxLayout();
-    copy->addWidget(makeLabel(QStringLiteral("SoberTrapp")));
-    copy->addWidget(makeLabel(QStringLiteral("Version %1 · Native Qt desktop app").arg(QStringLiteral(SOBERTRAPP_VERSION)), QStringLiteral("muted")));
+    copy->addWidget(makeLabel(QStringLiteral("SoberTrap")));
+    copy->addWidget(makeLabel(QStringLiteral("Version %1 · Native Qt desktop app").arg(QStringLiteral(SOBERTRAP_VERSION)), QStringLiteral("muted")));
     row->addLayout(copy, 1);
     content->addWidget(card);
     content->addWidget(createSectionHeading(QStringLiteral("Runtime and configuration")));
@@ -1957,7 +1957,7 @@ QWidget* MainWindow::buildAboutPage()
         const QString detail = i < 2 ? QStringLiteral("Current runtime value") : QStringLiteral("Select text to copy the path");
         content->addWidget(createSettingCard(labels.at(i), detail, value));
     }
-    auto* disclaimer = makeLabel(QStringLiteral("SoberTrapp is not affiliated with or endorsed by Roblox Corporation."), QStringLiteral("muted"));
+    auto* disclaimer = makeLabel(QStringLiteral("SoberTrap is not affiliated with or endorsed by Roblox Corporation."), QStringLiteral("muted"));
     disclaimer->setAlignment(Qt::AlignCenter);
     content->addWidget(disclaimer);
     content->addStretch();

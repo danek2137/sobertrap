@@ -52,7 +52,7 @@ QByteArray serializeObject(const QJsonObject& object)
 {
     QByteArray bytes;
     bytes += "// !!! STOP !!!\n";
-    bytes += "// This file is managed by SoberTrapp.\n";
+    bytes += "// This file is managed by SoberTrap.\n";
     bytes += "// Last edited at ";
     bytes += QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs).toUtf8();
     bytes += "\n// -------------------------------------------\n";
@@ -79,7 +79,7 @@ quint32 readU32LittleEndian(const QByteArray& bytes, qsizetype offset)
 
 QString findEtc1Tool()
 {
-    const QString overridePath = qEnvironmentVariable("SOBERTRAPP_ETC1TOOL_PATH",
+    const QString overridePath = qEnvironmentVariable("SOBERTRAP_ETC1TOOL_PATH",
         qEnvironmentVariable("SOBERTUNER_ETC1TOOL_PATH"));
     if (!overridePath.isEmpty() && QFileInfo(overridePath).isExecutable()) return overridePath;
     const QString fromPath = QStandardPaths::findExecutable(QStringLiteral("etc1tool"));
@@ -447,7 +447,7 @@ bool ConfigStore::installSkyboxImages(const QMap<QString, QString>& faceImages, 
     if (etc1tool.isEmpty()) {
         if (error) *error = QStringLiteral(
             "The Android etc1tool encoder was not found. Install Android SDK platform-tools or set "
-            "SOBERTUNER_ETC1TOOL_PATH to the etc1tool executable.");
+            "SOBERTRAP_ETC1TOOL_PATH to the etc1tool executable.");
         return false;
     }
 
@@ -635,7 +635,7 @@ bool ConfigStore::installSkyboxTextures(const QMap<QString, QByteArray>& faceTex
             return false;
         }
     }
-    if (!writeAtomically(skyboxMarkerPath(), QByteArray("SoberTrapp custom skybox active\n"), error)) {
+    if (!writeAtomically(skyboxMarkerPath(), QByteArray("SoberTrap custom skybox active\n"), error)) {
         QString rollbackError;
         restoreSkybox(&rollbackError);
         if (error && !rollbackError.isEmpty()) *error += QStringLiteral(" Rollback also failed: %1").arg(rollbackError);
