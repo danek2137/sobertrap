@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=SoberTrapp
+Comment=Settings manager for Sober on Linux
+Exec=/home/danek/Desktop/projects/SoberTuner/run.sh
+Icon=/home/danek/Desktop/projects/SoberTuner/assets/sobertrapp.svg
+Terminal=false
+Type=Application
+Categories=Utility;
+StartupNotify=true

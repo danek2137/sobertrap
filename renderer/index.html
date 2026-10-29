@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1b2329">
+  <title>SoberTuner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+      <div class="app-brand">
+        <div class="brand-mark" aria-hidden="true">S</div>
+        <div class="brand-copy">
+          <h1>SoberTuner</h1>
+          <span>Roblox settings</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="status-badge" class="status-pill">Loading…</span>
+        <button id="btn-save" class="btn btn-primary" type="button" title="Save changes (Ctrl+S)">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2.5h8l2 2v9H3zM5 2.5v4h6v-4M5 13.5V9h6v4.5" /></svg>
+          Save changes
+        </button>
+      </div>
+    </header>
+
+    <div class="main-layout">
+      <aside class="sidebar" aria-label="Settings navigation">
+        <label class="nav-search">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" /><path d="m10.5 10.5 3 3" /></svg>
+          <input id="nav-search" type="search" placeholder="Search settings" autocomplete="off" aria-label="Search settings">
+          <kbd>/</kbd>
+        </label>
+
+        <div class="nav-section-label">SETTINGS</div>
+        <nav id="nav-list" class="nav-list">
+          <button class="nav-item active" type="button" data-page="quick">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 4h11M2.5 8h11M2.5 12h11" /><circle cx="6" cy="4" r="1.2" /><circle cx="10" cy="8" r="1.2" /><circle cx="5" cy="12" r="1.2" /></svg>
+            <span>Quick Toggles</span>
+          </button>
+          <button class="nav-item" type="button" data-page="presets">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3.5h10v9H3zM5.5 6h5M5.5 8h5M5.5 10h2.5" /><path d="m2 5-1 1 1 1M14 9l1 1-1 1" /></svg>
+            <span>Presets</span>
+          </button>
+          <button class="nav-item" type="button" data-page="flags">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2.5v11M3.5 3h8l-1.5 2 1.5 2h-8" /><path d="M6 5h2" /></svg>
+            <span>Fast Flags</span>
+            <span id="flag-nav-count" class="nav-count">0</span>
+          </button>
+          <button class="nav-item" type="button" data-page="shiftlock">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3h7l3 3v7H3zM10 3v3h3M5 10l2-2 2 2 1.5-1.5" /><circle cx="6" cy="6" r=".7" /></svg>
+            <span>Shift Lock</span>
+          </button>
+          <button class="nav-item" type="button" data-page="backups">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3.5h10v10H3zM5 2v3M11 2v3M3 6.5h10" /><path d="M6 9h4M6 11h3" /></svg>
+            <span>Backups</span>
+          </button>
+          <button class="nav-item" type="button" data-page="about">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.5" /><path d="M8 7v4M8 4.8v.1" /></svg>
+            <span>About</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-spacer"></div>
+        <div class="sidebar-footer">
+          <span class="connection-dot" aria-hidden="true"></span>
+          <div><strong>Sober config</strong><span>Local settings file</span></div>
+        </div>
+      </aside>
+
+      <main id="main-content" class="content">
+        <section class="page active" data-page="quick" aria-labelledby="quick-title">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">SOBER CONFIGURATION</div>
+              <h2 id="quick-title">Quick Toggles</h2>
+              <p>Frequently used Roblox client settings, all in one place.</p>
+            </div>
+          </div>
+          <div class="notice-card">
+            <span class="notice-icon" aria-hidden="true">i</span>
+            <p>Changes are saved to your Sober configuration. Restart Roblox for them to take effect.</p>
+          </div>
+          <div id="quick-toggles" class="setting-list"></div>
+        </section>
+
+        <section class="page" data-page="presets" aria-labelledby="presets-title">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">CONFIGURATION</div>
+              <h2 id="presets-title">Presets</h2>
+              <p>Apply a ready-made collection of FastFlags to your Sober config.</p>
+            </div>
+          </div>
+          <div class="notice-card warning-card">
+            <span class="notice-icon" aria-hidden="true">!</span>
+            <p>Applying a preset replaces your current FastFlags. Back up your config first if you want to keep it.</p>
+          </div>
+          <div class="section-heading"><h3>Available presets</h3></div>
+          <div class="preset-grid">
+            <article class="preset-card">
+              <div class="preset-symbol performance-symbol" aria-hidden="true">↗</div>
+              <div class="preset-copy"><h3>Max Performance</h3><p>Prioritizes frame rate by reducing visual effects and rendering detail.</p></div>
+              <button class="btn preset" type="button" data-preset="performance">Apply preset</button>
+            </article>
+            <article class="preset-card">
+              <div class="preset-symbol balanced-symbol" aria-hidden="true">◐</div>
+              <div class="preset-copy"><h3>Balanced</h3><p>A lighter set of performance options while keeping more visuals enabled.</p></div>
+              <button class="btn preset" type="button" data-preset="balanced">Apply preset</button>
+            </article>
+            <article class="preset-card">
+              <div class="preset-symbol clear-symbol" aria-hidden="true">×</div>
+              <div class="preset-copy"><h3>Clear all flags</h3><p>Remove every custom FastFlag from the current configuration.</p></div>
+              <button class="btn preset" type="button" data-preset="default">Clear flags</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="page" data-page="flags" aria-labelledby="flags-title">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">ADVANCED CONFIGURATION</div>
+              <h2 id="flags-title">Fast Flags</h2>
+              <p>Search and manage the FastFlags currently stored in your Sober config.</p>
+            </div>
+          </div>
+          <div class="flag-toolbar">
+            <label class="flag-search">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" /><path d="m10.5 10.5 3 3" /></svg>
+              <input type="search" id="search" placeholder="Search FastFlags…" autocomplete="off" aria-label="Search FastFlags">
+            </label>
+            <span id="count-display" class="count-display">0 flags</span>
+          </div>
+          <div id="flag-list" class="flag-list"></div>
+        </section>
+
+        <section class="page" data-page="shiftlock" aria-labelledby="shiftlock-title">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">CUSTOMIZATION</div>
+              <h2 id="shiftlock-title">Shift Lock</h2>
+              <p>Replace Roblox’s default shift-lock cursor with an image of your choice.</p>
+            </div>
+          </div>
+          <article class="setting-card shiftlock-card">
+            <div id="shiftlock-preview" class="shiftlock-preview"><span>No custom cursor installed</span></div>
+            <div class="shiftlock-details">
+              <div class="setting-copy">
+                <h3>Custom shift-lock cursor</h3>
+                <p>Choose a PNG, JPG, WebP, BMP, or GIF. The image is converted to PNG and installed as the cursor texture.</p>
+              </div>
+              <div class="shiftlock-file">MouseLockedCursor.png</div>
+              <div id="shiftlock-status" class="inline-status">Using Roblox default</div>
+              <div class="button-row">
+                <button id="btn-shiftlock-set" class="btn btn-primary" type="button">Choose image</button>
+                <button id="btn-shiftlock-remove" class="btn" type="button">Remove custom image</button>
+                <button id="btn-shiftlock-restore" class="btn" type="button" hidden>Restore previous</button>
+              </div>
+            </div>
+          </article>
+          <div class="notice-card">
+            <span class="notice-icon" aria-hidden="true">i</span>
+            <p>The texture is installed in Sober’s asset overlay. Restart Sober to see the change in Roblox.</p>
+          </div>
+        </section>
+
+        <section class="page" data-page="backups" aria-labelledby="backups-title">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">CONFIGURATION</div>
+              <h2 id="backups-title">Backups</h2>
+              <p>Keep a copy of your current Sober settings before trying changes.</p>
+            </div>
+          </div>
+          <article class="setting-card backup-actions-card">
+            <div class="setting-copy">
+              <h3>Configuration backups</h3>
+              <p>Backups are stored next to your Sober configuration and can be restored at any time.</p>
+            </div>
+            <div class="button-row">
+              <button id="btn-backup" class="btn btn-primary" type="button">Create backup</button>
+              <button id="btn-restore" class="btn" type="button">Restore a backup…</button>
+            </div>
+          </article>
+          <div class="section-heading"><h3>Recent backups</h3></div>
+          <div id="backup-list" class="backup-list"></div>
+        </section>
+
+        <section class="page" data-page="about" aria-labelledby="about-title">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">SOBERTUNER</div>
+              <h2 id="about-title">About</h2>
+              <p>A small settings manager for Sober on Linux.</p>
+            </div>
+          </div>
+          <article class="setting-card about-card">
+            <div class="about-mark" aria-hidden="true">S</div>
+            <div class="setting-copy"><h3>SoberTuner</h3><p>Manage local Sober configuration, FastFlags, presets, backups, and the shift-lock cursor.</p></div>
+            <span class="version-pill">Version 1.0.0</span>
+          </article>
+          <div class="section-heading"><h3>Current configuration</h3></div>
+          <div id="meta-info" class="meta-grid"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
