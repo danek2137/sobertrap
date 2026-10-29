@@ -367,6 +367,16 @@ void MainWindow::buildInterface()
     m_saveButton->setEnabled(false);
     connect(m_saveButton, &QPushButton::clicked, this, &MainWindow::saveConfig);
     footerLayout->addWidget(m_saveButton);
+
+    m_saveAndRunButton = new QPushButton(QStringLiteral("Save and Run"));
+    m_saveAndRunButton->setObjectName(QStringLiteral("primaryButton"));
+    m_saveAndRunButton->setEnabled(false);
+    connect(m_saveAndRunButton, &QPushButton::clicked, this, [this]() {
+        saveConfig();
+        if (!m_configDirty) startSober();
+    });
+    footerLayout->addWidget(m_saveAndRunButton);
+
     auto* closeButton = new QPushButton(QStringLiteral("Close"));
     closeButton->setObjectName(QStringLiteral("secondaryButton"));
     connect(closeButton, &QPushButton::clicked, this, &QWidget::close);
@@ -575,6 +585,7 @@ void MainWindow::updateStatusAndStats()
     if (m_configCountLabel) m_configCountLabel->setText(QString::number(fflags().size()));
     if (m_flagCountLabel) m_flagCountLabel->setText(QStringLiteral("%1 FastFlags").arg(fflags().size()));
     if (m_saveButton) m_saveButton->setEnabled(m_configLoaded && m_configDirty);
+    if (m_saveAndRunButton) m_saveAndRunButton->setEnabled(m_configLoaded && m_configDirty);
 }
 
 QJsonObject MainWindow::fflags() const

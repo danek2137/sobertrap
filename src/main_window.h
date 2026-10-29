@@ -110,6 +110,7 @@ private:
     QLabel* m_statusLabel = nullptr;
     QLabel* m_configCountLabel = nullptr;
     QPushButton* m_saveButton = nullptr;
+    QPushButton* m_saveAndRunButton = nullptr;
     QPlainTextEdit* m_activityLog = nullptr;
     QPushButton* m_launchButton = nullptr;
     QVector<NavigationEntry> m_navigation;
