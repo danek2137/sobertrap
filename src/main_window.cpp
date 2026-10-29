@@ -324,18 +324,12 @@ void MainWindow::buildInterface()
     sidebarLogoLayout->setSpacing(2);
     auto* logoLabel = new QLabel();
     logoLabel->setAlignment(Qt::AlignCenter);
-    QFile logoFile(QStringLiteral("assets/logo.svg"));
-    if (!logoFile.open(QIODevice::ReadOnly)) {
-        logoFile.setFileName(QCoreApplication::applicationDirPath() + QStringLiteral("/assets/logo.svg"));
-        (void)logoFile.open(QIODevice::ReadOnly);
+    QPixmap pixmap(QStringLiteral("assets/logo.png"));
+    if (pixmap.isNull()) {
+        pixmap.load(QCoreApplication::applicationDirPath() + QStringLiteral("/assets/logo.png"));
     }
-    if (logoFile.isOpen()) {
-        QSvgRenderer renderer(logoFile.readAll());
-        QPixmap pixmap(64, 64);
-        pixmap.fill(Qt::transparent);
-        QPainter painter(&pixmap);
-        renderer.render(&painter, QRectF(0, 0, 64, 64));
-        logoLabel->setPixmap(pixmap);
+    if (!pixmap.isNull()) {
+        logoLabel->setPixmap(pixmap.scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     } else {
         logoLabel->setText(QStringLiteral("SoberTrap"));
     }
