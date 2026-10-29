@@ -300,6 +300,25 @@ void MainWindow::buildInterface()
     auto* sidebarLayout = new QVBoxLayout(m_sidebar);
     sidebarLayout->setContentsMargins(9, 12, 9, 10);
     sidebarLayout->setSpacing(3);
+
+    auto* sidebarHeader = new QHBoxLayout();
+    sidebarHeader->setContentsMargins(0, 0, 0, 8);
+    sidebarHeader->setSpacing(4);
+    auto* appNameLabel = new QLabel(QStringLiteral("SoberTrap"));
+    appNameLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    sidebarHeader->addWidget(appNameLabel, 1);
+    auto* logoLabel = new QLabel();
+    logoLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    QPixmap pixmap(QStringLiteral("assets/logo.png"));
+    if (pixmap.isNull()) {
+        pixmap.load(QCoreApplication::applicationDirPath() + QStringLiteral("/assets/logo.png"));
+    }
+    if (!pixmap.isNull()) {
+        logoLabel->setPixmap(pixmap.scaled(48, 48, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
+    sidebarHeader->addWidget(logoLabel);
+    sidebarLayout->addLayout(sidebarHeader);
+
     m_navigationSearch = new QLineEdit();
     m_navigationSearch->setPlaceholderText(QStringLiteral("Search settings"));
     m_navigationSearch->setClearButtonEnabled(true);
@@ -318,26 +337,9 @@ void MainWindow::buildInterface()
     navScroll->setWidget(navigationContent);
     sidebarLayout->addWidget(navScroll, 1);
 
-    auto* sidebarLogo = new QWidget();
-    auto* sidebarLogoLayout = new QVBoxLayout(sidebarLogo);
-    sidebarLogoLayout->setContentsMargins(0, 8, 0, 4);
-    sidebarLogoLayout->setSpacing(2);
-    auto* logoLabel = new QLabel();
-    logoLabel->setAlignment(Qt::AlignCenter);
-    QPixmap pixmap(QStringLiteral("assets/logo.png"));
-    if (pixmap.isNull()) {
-        pixmap.load(QCoreApplication::applicationDirPath() + QStringLiteral("/assets/logo.png"));
-    }
-    if (!pixmap.isNull()) {
-        logoLabel->setPixmap(pixmap.scaled(64, 64, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-    } else {
-        logoLabel->setText(QStringLiteral("SoberTrap"));
-    }
-    auto* infoLabel = new QLabel(QStringLiteral("SoberTrap 1.1.0"));
-    infoLabel->setAlignment(Qt::AlignCenter);
-    sidebarLogoLayout->addWidget(logoLabel);
-    sidebarLogoLayout->addWidget(infoLabel);
-    sidebarLayout->addWidget(sidebarLogo);
+    auto* versionLabel = new QLabel(QStringLiteral("v1.1.0"));
+    versionLabel->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
+    sidebarLayout->addWidget(versionLabel);
 
     bodyLayout->addWidget(m_sidebar);
 
