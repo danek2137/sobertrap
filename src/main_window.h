@@ -117,6 +117,7 @@ private:
     QHash<QString, int> m_pageIndices;
 
     QLineEdit* m_flagSearch = nullptr;
+    QLineEdit* m_settingsSearch = nullptr;
     QTableWidget* m_flagTable = nullptr;
     QLabel* m_flagCountLabel = nullptr;
     QVBoxLayout* m_profilesListLayout = nullptr;

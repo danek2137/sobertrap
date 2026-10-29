@@ -43,6 +43,7 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QVBoxLayout>
+#include <QVector>
 #include <QHBoxLayout>
 #include <QUrl>
 #include <QPainter>
@@ -807,12 +808,25 @@ QWidget* MainWindow::buildSettingsPage()
     QWidget* page = createPage(QStringLiteral("Settings"),
         QStringLiteral("Configure the Roblox renderer, launch channel, and common client tweaks."), &content);
 
+    // Search bar for filtering settings
+    auto* searchRow = new QHBoxLayout();
+    m_settingsSearch = new QLineEdit();
+    m_settingsSearch->setPlaceholderText(QStringLiteral("Search settings..."));
+    m_settingsSearch->setClearButtonEnabled(true);
+    searchRow->addWidget(m_settingsSearch);
+    content->addLayout(searchRow);
+
+    // Track all filterable cards: (card widget, searchable text)
+    QVector<QPair<QWidget*, QString>> filterableCards;
+
     content->addWidget(createSectionHeading(QStringLiteral("Fast Flag management")));
     auto* openFlagsButton = new QPushButton(QStringLiteral("Open Fast Flags"));
     openFlagsButton->setObjectName(QStringLiteral("secondaryButton"));
     connect(openFlagsButton, &QPushButton::clicked, this, [this]() { switchPage(QStringLiteral("fastflags")); });
-    content->addWidget(createSettingCard(QStringLiteral("Fast Flags"),
-        QStringLiteral("Search, add, and edit overrides in your Sober configuration."), openFlagsButton));
+    auto* fastFlagsCard = createSettingCard(QStringLiteral("Fast Flags"),
+        QStringLiteral("Search, add, and edit overrides in your Sober configuration."), openFlagsButton);
+    content->addWidget(fastFlagsCard);
+    filterableCards.append({fastFlagsCard, QStringLiteral("fast flags search add edit overrides")});
 
     content->addWidget(createSectionHeading(QStringLiteral("Graphics and launch")));
     auto* renderer = new QComboBox();
@@ -822,7 +836,9 @@ QWidget* MainWindow::buildSettingsPage()
     connect(renderer, &QComboBox::currentTextChanged, this, [this](const QString& value) {
         setFlag(QStringLiteral("FFlagDebugGraphicsPreferVulkan"), value == QStringLiteral("Vulkan"));
     });
-    content->addWidget(createSettingCard(QStringLiteral("Renderer"), QStringLiteral("Graphics API preferred by the Roblox client."), renderer));
+    auto* rendererCard = createSettingCard(QStringLiteral("Renderer"), QStringLiteral("Graphics API preferred by the Roblox client."), renderer);
+    content->addWidget(rendererCard);
+    filterableCards.append({rendererCard, QStringLiteral("renderer graphics api vulkan opengl")});
 
     auto* fps = new QComboBox();
     fps->addItems({QStringLiteral("30"), QStringLiteral("60"), QStringLiteral("75"), QStringLiteral("120"),
@@ -835,7 +851,9 @@ QWidget* MainWindow::buildSettingsPage()
         const int number = value.toInt(&ok);
         if (ok) setFlag(QStringLiteral("DFIntTaskSchedulerTargetFps"), number);
     });
-    content->addWidget(createSettingCard(QStringLiteral("FPS cap"), QStringLiteral("Target framerate (0 means unlimited)."), fps));
+    auto* fpsCard = createSettingCard(QStringLiteral("FPS cap"), QStringLiteral("Target framerate (0 means unlimited)."), fps);
+    content->addWidget(fpsCard);
+    filterableCards.append({fpsCard, QStringLiteral("fps cap framerate target")});
 
     auto* channel = new QComboBox();
     channel->addItems({QStringLiteral("LIVE"), QStringLiteral("ZINTEGRATION"), QStringLiteral("ZCANARY"), QStringLiteral("ZWINCANARY")});
@@ -846,7 +864,9 @@ QWidget* MainWindow::buildSettingsPage()
     connect(channel, &QComboBox::currentTextChanged, this, [this](const QString& value) {
         setFlag(QStringLiteral("FFlagDebugReleaseChannelOverride"), value);
     });
-    content->addWidget(createSettingCard(QStringLiteral("Release channel"), QStringLiteral("LIVE is the stable client channel."), channel));
+    auto* channelCard = createSettingCard(QStringLiteral("Release channel"), QStringLiteral("LIVE is the stable client channel."), channel);
+    content->addWidget(channelCard);
+    filterableCards.append({channelCard, QStringLiteral("release channel live zintegration zcanary")});
 
     content->addWidget(createSectionHeading(QStringLiteral("Tweak settings")));
     const QList<QPair<QString, QStringList>> tweaks = {
@@ -867,8 +887,26 @@ QWidget* MainWindow::buildSettingsPage()
         connect(toggle, &QAbstractButton::toggled, this, [this, key = tweak.first](bool enabled) {
             setFlag(key, enabled);
         });
-        content->addWidget(createSettingCard(tweak.second.at(0), tweak.second.at(1), toggle));
+        auto* tweakCard = createSettingCard(tweak.second.at(0), tweak.second.at(1), toggle);
+        content->addWidget(tweakCard);
+        filterableCards.append({tweakCard, tweak.second.at(0) + " " + tweak.second.at(1) + " " + tweak.first});
     }
+
+    // Connect search to filter cards
+    connect(m_settingsSearch, &QLineEdit::textChanged, this, [filterableCards](const QString& text) {
+        const QString query = text.trimmed().toLower();
+        for (const auto& pair : filterableCards) {
+            QWidget* card = pair.first;
+            const QString& searchText = pair.second;
+            bool visible = query.isEmpty() || searchText.toLower().contains(query);
+            if (!visible) {
+                for (auto* label : card->findChildren<QLabel*>()) {
+                    if (label->text().toLower().contains(query)) { visible = true; break; }
+                }
+            }
+            card->setVisible(visible);
+        }
+    });
 
     auto* note = makeLabel(QStringLiteral("Changes are staged until you press Save changes. Restart Sober for them to take effect."), QStringLiteral("muted"));
     note->setWordWrap(true);
