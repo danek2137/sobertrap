@@ -321,28 +321,25 @@ void MainWindow::buildInterface()
     navScroll->setWidget(navigationContent);
     sidebarLayout->addWidget(navScroll, 1);
 
-    // Bottom: app name + bigger logo on right, version below name
-    auto* nameLogoRow = new QHBoxLayout();
-    nameLogoRow->setContentsMargins(0, 4, 0, 0);
-    nameLogoRow->setSpacing(6);
+    // Bottom: app name, version below, logo below that
     auto* appNameLabel = new QLabel(QStringLiteral("SoberTrap"));
     appNameLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    nameLogoRow->addWidget(appNameLabel, 1);
+    sidebarLayout->addWidget(appNameLabel);
+
+    auto* versionLabel = new QLabel(QStringLiteral("v1.1.0"));
+    versionLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    sidebarLayout->addWidget(versionLabel);
+
     auto* logoLabel = new QLabel();
-    logoLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    logoLabel->setAlignment(Qt::AlignCenter);
     QPixmap pixmap(QStringLiteral("assets/logo.png"));
     if (pixmap.isNull()) {
         pixmap.load(QCoreApplication::applicationDirPath() + QStringLiteral("/assets/logo.png"));
     }
     if (!pixmap.isNull()) {
-        logoLabel->setPixmap(pixmap.scaled(40, 40, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        logoLabel->setPixmap(pixmap.scaled(56, 56, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
-    nameLogoRow->addWidget(logoLabel);
-    sidebarLayout->addLayout(nameLogoRow);
-
-    auto* versionLabel = new QLabel(QStringLiteral("v1.1.0"));
-    versionLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    sidebarLayout->addWidget(versionLabel);
+    sidebarLayout->addWidget(logoLabel);
 
     bodyLayout->addWidget(m_sidebar);
 
