@@ -337,8 +337,13 @@ void MainWindow::buildInterface()
     navScroll->setWidget(navigationContent);
     sidebarLayout->addWidget(navScroll, 1);
 
+    auto* separator = new QFrame();
+    separator->setFrameShape(QFrame::HLine);
+    separator->setFrameShadow(QFrame::Sunken);
+    sidebarLayout->addWidget(separator);
+
     auto* versionLabel = new QLabel(QStringLiteral("v1.1.0"));
-    versionLabel->setAlignment(Qt::AlignLeft | Qt::AlignBottom);
+    versionLabel->setAlignment(Qt::AlignRight | Qt::AlignBottom);
     sidebarLayout->addWidget(versionLabel);
 
     bodyLayout->addWidget(m_sidebar);
