@@ -324,9 +324,9 @@ void MainWindow::buildInterface()
     sidebarLogoLayout->setSpacing(2);
     auto* logoLabel = new QLabel();
     logoLabel->setAlignment(Qt::AlignCenter);
-    QFile logoFile(QStringLiteral("assets/sobertrap.svg"));
+    QFile logoFile(QStringLiteral("assets/logo.svg"));
     if (!logoFile.open(QIODevice::ReadOnly)) {
-        logoFile.setFileName(QCoreApplication::applicationDirPath() + QStringLiteral("/assets/sobertrap.svg"));
+        logoFile.setFileName(QCoreApplication::applicationDirPath() + QStringLiteral("/assets/logo.svg"));
         (void)logoFile.open(QIODevice::ReadOnly);
     }
     if (logoFile.isOpen()) {
