@@ -1,4 +1,6 @@
-![SoberTrapp Logo](assets/sobertrapp.svg)
+<p align="center">
+  <img src="assets/sobertrapp.svg" width="200" alt="SoberTrapp Logo">
+</p>
 
 # SoberTrapp
 
