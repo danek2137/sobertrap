@@ -342,7 +342,7 @@ void MainWindow::buildInterface()
     nameLogoRow->addWidget(logoLabel);
     sidebarLayout->addLayout(nameLogoRow);
 
-    auto* versionLabel = new QLabel(QStringLiteral("v1.1.0"));
+    auto* versionLabel = new QLabel(QStringLiteral("v1.2.0"));
     versionLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     sidebarLayout->addWidget(versionLabel);
 
@@ -374,8 +374,8 @@ void MainWindow::buildInterface()
     m_saveAndRunButton->setObjectName(QStringLiteral("primaryButton"));
     m_saveAndRunButton->setEnabled(false);
     connect(m_saveAndRunButton, &QPushButton::clicked, this, [this]() {
-        saveConfig();
-        if (!m_configDirty) startSober();
+        if (m_configDirty) saveConfig();
+        startSober();
     });
     footerLayout->addWidget(m_saveAndRunButton);
 
@@ -587,7 +587,7 @@ void MainWindow::updateStatusAndStats()
     if (m_configCountLabel) m_configCountLabel->setText(QString::number(fflags().size()));
     if (m_flagCountLabel) m_flagCountLabel->setText(QStringLiteral("%1 FastFlags").arg(fflags().size()));
     if (m_saveButton) m_saveButton->setEnabled(m_configLoaded && m_configDirty);
-    if (m_saveAndRunButton) m_saveAndRunButton->setEnabled(m_configLoaded && m_configDirty);
+    if (m_saveAndRunButton) m_saveAndRunButton->setEnabled(m_configLoaded);
 }
 
 QJsonObject MainWindow::fflags() const
