@@ -19,6 +19,7 @@
 #include <QFrame>
 #include <QGuiApplication>
 #include <QHeaderView>
+#include <QIcon>
 #include <QInputDialog>
 #include <QImageReader>
 #include <QLabel>
@@ -246,7 +247,7 @@ MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), m_store()
 {
     setWindowTitle(QStringLiteral("SoberTrap Settings"));
-    setWindowIcon(svgIcon(QStringLiteral("home")));
+    setWindowIcon(QIcon(QStringLiteral("assets/logo.png")));
     setMinimumSize(840, 480);
     resize(900, 540);
 
